@@ -1,4 +1,4 @@
-package tiraza.aplikasi;
+package com.tiraza.app;
 
 import android.app.Activity;
 import android.app.ProgressDialog;

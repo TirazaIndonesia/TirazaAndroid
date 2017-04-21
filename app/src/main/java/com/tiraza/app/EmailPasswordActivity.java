@@ -1,4 +1,4 @@
-package tiraza.aplikasi;
+package com.tiraza.app;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
