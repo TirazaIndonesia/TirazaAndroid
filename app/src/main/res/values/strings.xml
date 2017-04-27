@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">TirazaAndroid</string>
+    <string name="loading">Loading.......</string>
+    <string name="auth_failed">Authentication Failed</string>
+    <string name="title_activity_login">Login</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Alamat Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Masuk</string>
+    <string name="action_sign_in_short">Login</string>
+    <string name="error_invalid_email">Alamat Email Salah atau Tidak Terdaftar</string>
+    <string name="error_invalid_password">Password Minimal 4 (Huruf-Angka)</string>
+    <string name="error_incorrect_password">Maaf Password yang anda masukan SALAH!</string>
+    <string name="error_field_required">Anda Harus Mengisi ini</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+</resources>

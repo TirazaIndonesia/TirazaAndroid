@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "526748348790",
+    "firebase_url": "https://tirazaandroid.firebaseio.com",
+    "project_id": "tirazaandroid",
+    "storage_bucket": "tirazaandroid.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:526748348790:android:c3d2a08da7359d37",
+        "android_client_info": {
+          "package_name": "com.tiraza.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "526748348790-3ik398s36qjr9kjrk1inc3tg7k7amn14.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCeKYSizsiG7bbArZLaNABTQ5GICrpgX8E"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
