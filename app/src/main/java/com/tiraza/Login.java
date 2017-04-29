@@ -119,7 +119,9 @@ public class Login extends AppCompatActivity implements OnClickListener
             String name = user.getDisplayName();
             String email = user.getEmail();
             String uid = user.getUid();
-          } catch (NullPointerException e)
+          }
+
+          catch (NullPointerException e)
           {
             Log.e(TAG, "NULL POINTER EXCEPTION ON USER DETAILS");
           }
