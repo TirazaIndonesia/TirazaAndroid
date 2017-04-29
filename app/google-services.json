@@ -67,6 +67,7 @@
       },
       "oauth_client": [
         {
+<<<<<<< Updated upstream
           "client_id": "526748348790-tpe9bj5b87t3ahf5m7haa45lglqf2ad1.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -75,6 +76,8 @@
           }
         },
         {
+=======
+>>>>>>> Stashed changes
           "client_id": "526748348790-ahfskemmmflvcos3kksd77fepqn6lum8.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
