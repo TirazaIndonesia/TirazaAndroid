@@ -97,7 +97,7 @@ public class Splash extends AppCompatActivity
 
     mVisible = true;
     mControlsView = findViewById(R.id.fullscreen_content_controls);
-    mContentView = findViewById(R.id.fullscreen_content);
+    //mContentView = findViewById(R.id.fullscreen_content);
 
     // Set up the user interaction to manually show or hide the system UI.
     mContentView.setOnClickListener(new View.OnClickListener()
