@@ -1,0 +1,115 @@
+{
+  "project_info": {
+    "project_number": "526748348790",
+    "firebase_url": "https://tirazaandroid.firebaseio.com",
+    "project_id": "tirazaandroid",
+    "storage_bucket": "tirazaandroid.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:526748348790:android:c3d2a08da7359d37",
+        "android_client_info": {
+          "package_name": "com.tiraza.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "526748348790-p6ip99gbllkhfdgqvoebfd252upavtoj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tiraza.app",
+            "certificate_hash": "33e1f86c04967b33795ac729536af758f013ba96"
+          }
+        },
+        {
+          "client_id": "526748348790-fg9otp56vesldl2uq841qhk85bqvfnar.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tiraza.app",
+            "certificate_hash": "6ccda849ae91b99d4df8fa9a93404d5009429951"
+          }
+        },
+        {
+          "client_id": "526748348790-3ik398s36qjr9kjrk1inc3tg7k7amn14.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCeKYSizsiG7bbArZLaNABTQ5GICrpgX8E"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "526748348790-3ik398s36qjr9kjrk1inc3tg7k7amn14.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:526748348790:android:c43f45dbeae73fdb",
+        "android_client_info": {
+          "package_name": "com.tiraza"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "526748348790-tpe9bj5b87t3ahf5m7haa45lglqf2ad1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tiraza",
+            "certificate_hash": "6ccda849ae91b99d4df8fa9a93404d5009429951"
+          }
+        },
+        {
+          "client_id": "526748348790-ahfskemmmflvcos3kksd77fepqn6lum8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tiraza",
+            "certificate_hash": "33e1f86c04967b33795ac729536af758f013ba96"
+          }
+        },
+        {
+          "client_id": "526748348790-3ik398s36qjr9kjrk1inc3tg7k7amn14.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCeKYSizsiG7bbArZLaNABTQ5GICrpgX8E"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "526748348790-3ik398s36qjr9kjrk1inc3tg7k7amn14.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

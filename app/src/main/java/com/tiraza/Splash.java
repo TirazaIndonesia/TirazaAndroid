@@ -3,9 +3,10 @@ package com.tiraza;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 
-public class Splash extends  Activity
+public class Splash extends AppCompatActivity
 {
   @Override
   protected void onCreate(Bundle savedInstanceState)
@@ -33,8 +34,7 @@ public class Splash extends  Activity
 
         finally
         {
-          //finish();
-
+          finish();
         }
       }
     };
