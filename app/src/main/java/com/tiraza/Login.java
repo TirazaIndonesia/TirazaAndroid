@@ -43,6 +43,8 @@ public class Login extends AppCompatActivity implements OnClickListener
 
   private EditText mEmailField;
   private EditText mPasswordField;
+  private TextView mUID;
+  private TextView mName;
 
   // [START declare_auth]
   private FirebaseAuth mAuth;
@@ -58,6 +60,8 @@ public class Login extends AppCompatActivity implements OnClickListener
     // Views
     mEmailField = (EditText) findViewById(R.id.fEmailLogin);
     mPasswordField = (EditText) findViewById(R.id.fPasswordLogin);
+    mUID = (TextView) findViewById(R.id.debugUID);
+    mName = (TextView) findViewById(R.id.debugName);
 
     // Buttons
     findViewById(R.id.bLogin).setOnClickListener(this);
@@ -108,25 +112,29 @@ public class Login extends AppCompatActivity implements OnClickListener
     {
       public void onComplete(@NonNull Task task)
       {
+        String name = "";
+        String uid = "";
+
         if (task.isSuccessful())
         {
           // Sign in success, update UI with the signed-in user's information
           Log.d(TAG, "signInWithEmail:success");
-          Toast.makeText(Login.this, "Authentication success.",
-              Toast.LENGTH_SHORT).show();
+          Toast.makeText(Login.this, "Authentication success.", Toast.LENGTH_SHORT).show();
           FirebaseUser user = mAuth.getCurrentUser();
 
           try
           {
-            String name = user.getDisplayName();
-            String email = user.getEmail();
-            String uid = user.getUid();
+            name = user.getDisplayName();
+            uid = user.getUid();
           }
 
           catch (NullPointerException e)
           {
             Log.e(TAG, "NULL POINTER EXCEPTION ON USER DETAILS");
           }
+
+          mUID.setText("UserID: " + uid);
+          mName.setText("DisplayName: " + name);
         }
 
         else
@@ -135,6 +143,9 @@ public class Login extends AppCompatActivity implements OnClickListener
           Log.w(TAG, "signInWithEmail:failure", task.getException());
           Toast.makeText(Login.this, "Authentication failed.",
               Toast.LENGTH_SHORT).show();
+
+          mUID.setText("");
+          mName.setText("");
         }
 
         // [START_EXCLUDE]
