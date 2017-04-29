@@ -25,14 +25,11 @@ public class Splash extends AppCompatActivity
    * user interaction before hiding the system UI.
    */
   private static final int AUTO_HIDE_DELAY_MILLIS = 3000;
-
-  /**
-   * Some older devices needs a small delay between UI widget updates
-   * and a change of the status and navigation bar.
-   */
   private static final int UI_ANIMATION_DELAY = 300;
   private final Handler mHideHandler = new Handler();
   private View mContentView;
+  private View mControlsView;
+
   private final Runnable mHidePart2Runnable = new Runnable()
   {
     @SuppressLint("InlinedApi")
@@ -52,7 +49,7 @@ public class Splash extends AppCompatActivity
               | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
     }
   };
-  private View mControlsView;
+
   private final Runnable mShowPart2Runnable = new Runnable()
   {
     @Override
@@ -67,6 +64,7 @@ public class Splash extends AppCompatActivity
       mControlsView.setVisibility(View.VISIBLE);
     }
   };
+
   private boolean mVisible;
   private final Runnable mHideRunnable = new Runnable()
   {
@@ -76,11 +74,7 @@ public class Splash extends AppCompatActivity
       hide();
     }
   };
-  /**
-   * Touch listener to use for in-layout UI controls to delay hiding the
-   * system UI. This is to prevent the jarring behavior of controls going away
-   * while interacting with activity UI.
-   */
+
   private final View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener()
   {
     @Override
@@ -105,7 +99,6 @@ public class Splash extends AppCompatActivity
     mControlsView = findViewById(R.id.fullscreen_content_controls);
     mContentView = findViewById(R.id.fullscreen_content);
 
-
     // Set up the user interaction to manually show or hide the system UI.
     mContentView.setOnClickListener(new View.OnClickListener()
     {
@@ -116,9 +109,6 @@ public class Splash extends AppCompatActivity
       }
     });
 
-    // Upon interacting with UI controls, delay any scheduled hide()
-    // operations to prevent the jarring behavior of controls going away
-    // while interacting with the UI.
     findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
   }
 
@@ -127,9 +117,6 @@ public class Splash extends AppCompatActivity
   {
     super.onPostCreate(savedInstanceState);
 
-    // Trigger the initial hide() shortly after the activity has been
-    // created, to briefly hint to the user that UI controls
-    // are available.
     delayedHide(100);
   }
 
@@ -173,10 +160,6 @@ public class Splash extends AppCompatActivity
     mHideHandler.postDelayed(mShowPart2Runnable, UI_ANIMATION_DELAY);
   }
 
-  /**
-   * Schedules a call to hide() in [delay] milliseconds, canceling any
-   * previously scheduled calls.
-   */
   private void delayedHide(int delayMillis)
   {
     mHideHandler.removeCallbacks(mHideRunnable);
