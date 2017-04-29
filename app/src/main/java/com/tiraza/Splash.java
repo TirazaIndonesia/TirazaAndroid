@@ -1,6 +1,7 @@
 package com.tiraza;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -118,6 +119,7 @@ public class Splash extends AppCompatActivity
     super.onPostCreate(savedInstanceState);
 
     delayedHide(100);
+    startActivity(new Intent(this, Login.class));
   }
 
   private void toggle()
