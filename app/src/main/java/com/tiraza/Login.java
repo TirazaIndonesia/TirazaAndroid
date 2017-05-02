@@ -30,14 +30,20 @@ import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.TextView;
 import android.util.Log;
-
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class Login extends AppCompatActivity implements OnClickListener
+public class Login extends AppCompatActivity implements OnClickListener, GoogleApiClient.OnConnectionFailedListener
 {
   private static final String TAG = "EmailPassword";
 
@@ -50,6 +56,8 @@ public class Login extends AppCompatActivity implements OnClickListener
   private FirebaseAuth mAuth;
   private FirebaseAuth.AuthStateListener mAuthListener;
   // [END declare_auth]
+
+  private GoogleApiClient mGoogleApiClient;
 
   @Override
   public void onCreate(Bundle savedInstanceState)
@@ -65,6 +73,20 @@ public class Login extends AppCompatActivity implements OnClickListener
 
     // Buttons
     findViewById(R.id.bLogin).setOnClickListener(this);
+    findViewById(R.id.bSignInGoogle).setOnClickListener(this);
+
+    // [START config_signin]
+    // Configure Google Sign In
+    GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        .requestIdToken(getString(R.string.default_web_client_id))
+        .requestEmail()
+        .build();
+    // [END config_signin]
+
+    mGoogleApiClient = new GoogleApiClient.Builder(this)
+        .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
+        .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+        .build();
 
     // [START initialize_auth]
     mAuth = FirebaseAuth.getInstance();
@@ -94,9 +116,18 @@ public class Login extends AppCompatActivity implements OnClickListener
   public void onClick(View v)
   {
     int i = v.getId();
-    if (i == R.id.bLogin)
+
+    switch (i)
     {
-      signIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
+      case R.id.bLogin:
+        signIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
+        break;
+
+      case R.id.bSignInGoogle:
+        break;
+
+      default:
+
     }
   }
 
@@ -162,6 +193,38 @@ public class Login extends AppCompatActivity implements OnClickListener
     // [END sign_in_with_email]
   }
 
+  // [START auth_with_google]
+  private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+    Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
+
+
+    AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+    mAuth.signInWithCredential(credential)
+        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+          @Override
+          public void onComplete(@NonNull Task<AuthResult> task) {
+            if (task.isSuccessful()) {
+              // Sign in success, update UI with the signed-in user's information
+              Log.d(TAG, "signInWithCredential:success");
+              FirebaseUser user = mAuth.getCurrentUser();
+              updateUI(user);
+            } else {
+              // If sign in fails, display a message to the user.
+              Log.w(TAG, "signInWithCredential:failure", task.getException());
+              Toast.makeText(GoogleSignInActivity.this, "Authentication failed.",
+                  Toast.LENGTH_SHORT).show();
+              updateUI(null);
+            }
+
+            // [START_EXCLUDE]
+            hideProgressDialog();
+            // [END_EXCLUDE]
+          }
+        });
+  }
+  // [END auth_with_google]
+
+
   private boolean validateForm()
   {
     boolean valid = true;
@@ -187,6 +250,15 @@ public class Login extends AppCompatActivity implements OnClickListener
     }
 
     return valid;
+  }
+
+  @Override
+  public void onConnectionFailed(@NonNull ConnectionResult connectionResult)
+  {
+    // An unresolvable error has occurred and Google APIs (including Sign-In) will not
+    // be available.
+    Log.d(TAG, "onConnectionFailed:" + connectionResult);
+    Toast.makeText(this, "Google Play Services error.", Toast.LENGTH_LONG).show();
   }
 }
 

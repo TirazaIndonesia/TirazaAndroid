@@ -67,6 +67,12 @@
                 android:text="@string/action_sign_in_short"
                 android:textStyle="bold"/>
 
+            <Button
+                android:id="@+id/bSignInGoogle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/buttonGoogleSignIn"/>
+
             <TextView
                 android:id="@+id/debugUID"
                 android:layout_width="match_parent"
