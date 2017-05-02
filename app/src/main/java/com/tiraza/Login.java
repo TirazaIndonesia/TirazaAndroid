@@ -110,6 +110,7 @@ public class Login extends AppCompatActivity implements OnClickListener,
 
       case R.id.bSignInGoogle:
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        //startActivityForResult(signInIntent, RC_SIGN_IN);
         startActivityForResult(signInIntent, RC_SIGN_IN);
         break;
 
@@ -118,7 +119,7 @@ public class Login extends AppCompatActivity implements OnClickListener,
     }
   }
 
-  // LISTENER FOR ACTIVITY RESULT (RC_SIGN_IN) FROM GOOGLE SIGNIN
+  // LISTENER FOR ACTIVITY RESULT (RC_SIGN_IN) FROM GOOGLE SIGN-IN
   @Override
   public void onActivityResult(int requestCode, int resultCode, Intent data)
   {
@@ -157,7 +158,7 @@ public class Login extends AppCompatActivity implements OnClickListener,
         {
           // Sign in success, update UI with the signed-in user's information
           Log.d(TAG, "signInWithEmail:success");
-          Toast.makeText(Login.this, "Authentication success.", Toast.LENGTH_SHORT).show();
+          Toast.makeText(Login.this, "Email authentication success.", Toast.LENGTH_SHORT).show();
           FirebaseUser user = mAuth.getCurrentUser();
 
           try
@@ -179,8 +180,7 @@ public class Login extends AppCompatActivity implements OnClickListener,
         {
           // If sign in fails, display a message to the user.
           Log.w(TAG, "signInWithEmail:failure", task.getException());
-          Toast.makeText(Login.this, "Authentication failed.",
-              Toast.LENGTH_SHORT).show();
+          Toast.makeText(Login.this, "Email authentication failed.", Toast.LENGTH_SHORT).show();
 
           mUID.setText("");
           mName.setText("");
@@ -216,13 +216,13 @@ public class Login extends AppCompatActivity implements OnClickListener,
               // Sign in success, update UI with the signed-in user's information
               Log.d(TAG, "signInWithCredential:success");
               FirebaseUser user = mAuth.getCurrentUser();
+              Toast.makeText(Login.this, "Google authentication success.", Toast.LENGTH_SHORT).show();
               //updateUI(user);
             } else
             {
               // If sign in fails, display a message to the user.
               Log.w(TAG, "signInWithCredential:failure", task.getException());
-              Toast.makeText(Login.this, "Authentication failed.",
-                  Toast.LENGTH_SHORT).show();
+              Toast.makeText(Login.this, "Google authentication failed.", Toast.LENGTH_SHORT).show();
               //updateUI(null);
             }
 
