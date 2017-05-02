@@ -1,31 +1,14 @@
 package com.tiraza;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
-import android.content.pm.PackageManager;
+import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.app.LoaderManager.LoaderCallbacks;
 
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 
-import android.provider.ContactsContract;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.TextView;
@@ -44,9 +27,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-public class Login extends AppCompatActivity implements OnClickListener, GoogleApiClient.OnConnectionFailedListener
+public class Login extends AppCompatActivity implements OnClickListener,
+    GoogleApiClient.OnConnectionFailedListener
 {
-  private static final String TAG = "EmailPassword";
+  private static final String TAG = "LoginEmailGoogle";
+  private static final int RC_SIGN_IN = 9001;
 
   private EditText mEmailField;
   private EditText mPasswordField;
@@ -55,10 +40,9 @@ public class Login extends AppCompatActivity implements OnClickListener, GoogleA
 
   // [START declare_auth]
   private FirebaseAuth mAuth;
-  private FirebaseAuth.AuthStateListener mAuthListener;
-  // [END declare_auth]
-
+  public  FirebaseAuth.AuthStateListener mAuthListener;
   private GoogleApiClient mGoogleApiClient;
+  // [END declare_auth]
 
   @Override
   public void onCreate(Bundle savedInstanceState)
@@ -121,10 +105,12 @@ public class Login extends AppCompatActivity implements OnClickListener, GoogleA
     switch (i)
     {
       case R.id.bLogin:
-        signIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
+        signInEmail(mEmailField.getText().toString(), mPasswordField.getText().toString());
         break;
 
       case R.id.bSignInGoogle:
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        startActivityForResult(signInIntent, RC_SIGN_IN);
         break;
 
       default:
@@ -132,7 +118,27 @@ public class Login extends AppCompatActivity implements OnClickListener, GoogleA
     }
   }
 
-  private void signIn(String email, String password)
+  // LISTENER FOR ACTIVITY RESULT (RC_SIGN_IN) FROM GOOGLE SIGNIN
+  @Override
+  public void onActivityResult(int requestCode, int resultCode, Intent data)
+  {
+    super.onActivityResult(requestCode, resultCode, data);
+
+    // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+    if (requestCode == RC_SIGN_IN)
+    {
+      GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+      if (result.isSuccess())
+      {
+        // Google Sign In was successful, authenticate with Firebase
+        GoogleSignInAccount account = result.getSignInAccount();
+        signInGoogle(account);
+      }
+    }
+  }
+
+  // SIGN IN WITH EMAIL
+  private void signInEmail(String email, String password)
   {
     Log.d(TAG, "signIn:" + email);
     if (!validateForm())
@@ -194,10 +200,10 @@ public class Login extends AppCompatActivity implements OnClickListener, GoogleA
     // [END sign_in_with_email]
   }
 
-  // [START auth_with_google]
-  private void firebaseAuthWithGoogle(GoogleSignInAccount acct)
+  // SIGN IN WITH GOOGLE ACCOUNT
+  private void signInGoogle(GoogleSignInAccount acct)
   {
-    Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
+    Log.d(TAG, "signInGoogle:" + acct.getId());
 
     AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
     mAuth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>()
@@ -226,8 +232,6 @@ public class Login extends AppCompatActivity implements OnClickListener, GoogleA
           }
         });
   }
-  // [END auth_with_google]
-
 
   private boolean validateForm()
   {
