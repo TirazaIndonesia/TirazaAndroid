@@ -20,6 +20,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -39,7 +40,8 @@ public class Login extends AppCompatActivity implements OnClickListener,
   private TextView mName;
 
   // [START declare_auth]
-  private FirebaseAuth mAuth;
+  private FirebaseAuth mGoogleAuth;
+  private FirebaseAuth mEmailAuth;
   public  FirebaseAuth.AuthStateListener mAuthListener;
   private GoogleApiClient mGoogleApiClient;
   // [END declare_auth]
@@ -74,7 +76,8 @@ public class Login extends AppCompatActivity implements OnClickListener,
         .build();
 
     // [START initialize_auth]
-    mAuth = FirebaseAuth.getInstance();
+    mGoogleAuth = FirebaseAuth.getInstance();
+    mEmailAuth = FirebaseAuth.getInstance();
     // [END initialize_auth]
 
     mAuthListener = new FirebaseAuth.AuthStateListener()
@@ -105,13 +108,21 @@ public class Login extends AppCompatActivity implements OnClickListener,
     switch (i)
     {
       case R.id.bLogin:
+        // Sign-out first, then login to clear default account caching
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient);
         signInEmail(mEmailField.getText().toString(), mPasswordField.getText().toString());
+
+        // Call next activity
+
         break;
 
       case R.id.bSignInGoogle:
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient);
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-        //startActivityForResult(signInIntent, RC_SIGN_IN);
         startActivityForResult(signInIntent, RC_SIGN_IN);
+
+        // Call next activity
+        
         break;
 
       default:
@@ -159,7 +170,7 @@ public class Login extends AppCompatActivity implements OnClickListener,
           // Sign in success, update UI with the signed-in user's information
           Log.d(TAG, "signInWithEmail:success");
           Toast.makeText(Login.this, "Email authentication success.", Toast.LENGTH_SHORT).show();
-          FirebaseUser user = mAuth.getCurrentUser();
+          FirebaseUser user = mEmailAuth.getCurrentUser();
 
           try
           {
@@ -196,7 +207,7 @@ public class Login extends AppCompatActivity implements OnClickListener,
     };
 
     // [START sign_in_with_email]
-    mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, onCompleteListener);
+    mEmailAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, onCompleteListener);
     // [END sign_in_with_email]
   }
 
@@ -206,8 +217,12 @@ public class Login extends AppCompatActivity implements OnClickListener,
     Log.d(TAG, "signInGoogle:" + acct.getId());
 
     AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
-    mAuth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>()
+    mGoogleAuth.signInWithCredential(credential)
+        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>()
         {
+          String name = "";
+          String uid = "";
+
           @Override
           public void onComplete(@NonNull Task<AuthResult> task)
           {
@@ -215,14 +230,32 @@ public class Login extends AppCompatActivity implements OnClickListener,
             {
               // Sign in success, update UI with the signed-in user's information
               Log.d(TAG, "signInWithCredential:success");
-              FirebaseUser user = mAuth.getCurrentUser();
+              FirebaseUser user = mGoogleAuth.getCurrentUser();
               Toast.makeText(Login.this, "Google authentication success.", Toast.LENGTH_SHORT).show();
-              //updateUI(user);
-            } else
+
+              try
+              {
+                name = user.getDisplayName();
+                uid = user.getUid();
+              }
+
+              catch (NullPointerException e)
+              {
+                Log.e(TAG, "NULL POINTER EXCEPTION ON USER DETAILS");
+              }
+
+              mUID.setText("UserID: " + uid);
+              mName.setText("DisplayName: " + name);
+            }
+
+            else
             {
               // If sign in fails, display a message to the user.
               Log.w(TAG, "signInWithCredential:failure", task.getException());
               Toast.makeText(Login.this, "Google authentication failed.", Toast.LENGTH_SHORT).show();
+
+              mUID.setText("");
+              mName.setText("");
               //updateUI(null);
             }
 
@@ -266,7 +299,7 @@ public class Login extends AppCompatActivity implements OnClickListener,
     // An unresolvable error has occurred and Google APIs (including Sign-In) will not
     // be available.
     Log.d(TAG, "onConnectionFailed:" + connectionResult);
-    Toast.makeText(this, "Google Play Services error.", Toast.LENGTH_LONG).show();
+    Toast.makeText(Login.this, "Connection error.", Toast.LENGTH_LONG).show();
   }
 }
 
