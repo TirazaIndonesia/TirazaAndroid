@@ -42,6 +42,7 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 
 public class Login extends AppCompatActivity implements OnClickListener, GoogleApiClient.OnConnectionFailedListener
 {
@@ -194,30 +195,33 @@ public class Login extends AppCompatActivity implements OnClickListener, GoogleA
   }
 
   // [START auth_with_google]
-  private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+  private void firebaseAuthWithGoogle(GoogleSignInAccount acct)
+  {
     Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
 
-
     AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
-    mAuth.signInWithCredential(credential)
-        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+    mAuth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>()
+        {
           @Override
-          public void onComplete(@NonNull Task<AuthResult> task) {
-            if (task.isSuccessful()) {
+          public void onComplete(@NonNull Task<AuthResult> task)
+          {
+            if (task.isSuccessful())
+            {
               // Sign in success, update UI with the signed-in user's information
               Log.d(TAG, "signInWithCredential:success");
               FirebaseUser user = mAuth.getCurrentUser();
-              updateUI(user);
-            } else {
+              //updateUI(user);
+            } else
+            {
               // If sign in fails, display a message to the user.
               Log.w(TAG, "signInWithCredential:failure", task.getException());
-              Toast.makeText(GoogleSignInActivity.this, "Authentication failed.",
+              Toast.makeText(Login.this, "Authentication failed.",
                   Toast.LENGTH_SHORT).show();
-              updateUI(null);
+              //updateUI(null);
             }
 
             // [START_EXCLUDE]
-            hideProgressDialog();
+            //hideProgressDialog();
             // [END_EXCLUDE]
           }
         });
