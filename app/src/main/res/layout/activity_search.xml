@@ -40,7 +40,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView">
-
     </SearchView>
 
     <ScrollView
@@ -55,11 +54,9 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fSearch">
-
         <ListView
             android:id="@+id/sKategori"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </ScrollView>
-
 </android.support.constraint.ConstraintLayout>
