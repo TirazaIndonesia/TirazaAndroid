@@ -18,4 +18,5 @@
     completions."
   </string>
   <string name="buttonGoogleSignIn">Google Sign-In</string>
+    <string name="login_google">Google Sign-In</string>
 </resources>

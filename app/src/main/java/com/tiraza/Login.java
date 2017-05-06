@@ -111,18 +111,12 @@ public class Login extends AppCompatActivity implements OnClickListener,
         // Sign-out first, then login to clear default account caching
         Auth.GoogleSignInApi.signOut(mGoogleApiClient);
         signInEmail(mEmailField.getText().toString(), mPasswordField.getText().toString());
-
-        // Call next activity
-
         break;
 
       case R.id.bSignInGoogle:
         Auth.GoogleSignInApi.signOut(mGoogleApiClient);
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
-
-        // Call next activity
-        
         break;
 
       default:
@@ -185,6 +179,9 @@ public class Login extends AppCompatActivity implements OnClickListener,
 
           mUID.setText("UserID: " + uid);
           mName.setText("DisplayName: " + name);
+
+          // Call next activity
+          startActivity(new Intent(null, Search.class));
         }
 
         else
