@@ -19,6 +19,7 @@ public class Search extends AppCompatActivity implements View.OnClickListener
 
   }
 
+  @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     MenuInflater inflater = getMenuInflater();
     inflater.inflate(R.menu.options_menu, menu);
