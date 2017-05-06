@@ -44,6 +44,7 @@ public class Login extends AppCompatActivity implements OnClickListener,
   private FirebaseAuth mEmailAuth;
   public  FirebaseAuth.AuthStateListener mAuthListener;
   private GoogleApiClient mGoogleApiClient;
+  private FirebaseUser userFirebase;
   // [END declare_auth]
 
   @Override
@@ -85,11 +86,11 @@ public class Login extends AppCompatActivity implements OnClickListener,
       @Override
       public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth)
       {
-        FirebaseUser user = firebaseAuth.getCurrentUser();
-        if (user != null)
+        userFirebase = firebaseAuth.getCurrentUser();
+        if (userFirebase != null)
         {
           // User is signed in
-          Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+          Log.d(TAG, "onAuthStateChanged:signed_in:" + userFirebase.getUid());
         } else
         {
           // User is signed out
@@ -111,6 +112,9 @@ public class Login extends AppCompatActivity implements OnClickListener,
         // Sign-out first, then login to clear default account caching
         Auth.GoogleSignInApi.signOut(mGoogleApiClient);
         signInEmail(mEmailField.getText().toString(), mPasswordField.getText().toString());
+
+        // Call next activity
+        startActivity(new Intent(this, Search.class));
         break;
 
       case R.id.bSignInGoogle:
@@ -164,12 +168,12 @@ public class Login extends AppCompatActivity implements OnClickListener,
           // Sign in success, update UI with the signed-in user's information
           Log.d(TAG, "signInWithEmail:success");
           Toast.makeText(Login.this, "Email authentication success.", Toast.LENGTH_SHORT).show();
-          FirebaseUser user = mEmailAuth.getCurrentUser();
+          userFirebase = mEmailAuth.getCurrentUser();
 
           try
           {
-            name = user.getDisplayName();
-            uid = user.getUid();
+            name = userFirebase.getDisplayName();
+            uid = userFirebase.getUid();
           }
 
           catch (NullPointerException e)
@@ -179,9 +183,6 @@ public class Login extends AppCompatActivity implements OnClickListener,
 
           mUID.setText("UserID: " + uid);
           mName.setText("DisplayName: " + name);
-
-          // Call next activity
-          startActivity(new Intent(null, Search.class));
         }
 
         else
